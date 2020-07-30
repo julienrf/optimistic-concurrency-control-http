@@ -28,8 +28,6 @@ object Version {
  */
 trait VersionedEndpoints extends algebra.Endpoints with algebra.JsonEntitiesFromSchemas {
 
-  def PreconditionFailed: StatusCode // Temporary, will be supported out of the box in endpoints4s 1.1.0
-
   // Since we get raw headers’ values, we need to manually decode and encode them
   // For now, we only support non-weak etag values, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag
   private def decodeETag(rawETag: String): Version = Version(rawETag.stripPrefix("\"").stripSuffix("\""))

@@ -3,7 +3,6 @@ package com.bestmile.optimistic
 import akka.actor.typed.{ActorSystem, SpawnProtocol}
 import akka.actor.typed.scaladsl.adapter.TypedActorSystemOps
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.model.StatusCodes
 import endpoints4s.akkahttp.client
 
 import scala.concurrent.Await
@@ -20,9 +19,7 @@ class ResourcesSuite extends munit.FunSuite {
   val resourcesClient = {
     val settings =
       client.EndpointsSettings(client.AkkaHttpRequestExecutor.cachedHostConnectionPool(interface, port))
-    new client.Endpoints(settings) with client.JsonEntitiesFromSchemas with ResourcesApi {
-      def PreconditionFailed = StatusCodes.PreconditionFailed
-    }
+    new client.Endpoints(settings) with client.JsonEntitiesFromSchemas with ResourcesApi
   }
 
   override def afterAll(): Unit = {

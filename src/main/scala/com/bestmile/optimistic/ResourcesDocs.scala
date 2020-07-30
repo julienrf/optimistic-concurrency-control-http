@@ -9,6 +9,4 @@ object ResourcesDocs extends ResourcesApi with openapi.Endpoints with openapi.Js
     Info("Optimistic Concurrency Control", "1.0.0")
   )(read, update)
 
-  def PreconditionFailed: Int = 412
-
 }
