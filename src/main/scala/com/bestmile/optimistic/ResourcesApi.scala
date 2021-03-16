@@ -31,7 +31,7 @@ trait ResourcesApi extends VersionedEndpoints {
    * The JSON schema for our [[Resource]] type
    */
   implicit lazy val resourceSchema: JsonSchema[Resource] =
-    field[String]("content").xmap(Resource)(_.content)
+    field[String]("content").xmap(Resource(_))(_.content)
 
 }
 

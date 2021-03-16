@@ -37,7 +37,7 @@ class ResourcesSuite extends munit.FunSuite {
     val newResource = Resource("new-value")
     for {
       // Read the current value of the resource
-      resourceV1 <- resourcesClient.read()
+      resourceV1 <- resourcesClient.read(())
       // Make sure it was different from what we will set it to
       _ = assert(resourceV1.value != newResource)
       // Try to update the resource with a new value
@@ -48,7 +48,7 @@ class ResourcesSuite extends munit.FunSuite {
           resourceV2.version != resourceV1.version
       })
       // Read the resource again
-      resourceV2 <- resourcesClient.read()
+      resourceV2 <- resourcesClient.read(())
       // Check that it still has the same value and version as what was returned by the previous update
       _ = assert(maybeResourceV2.contains(resourceV2))
     } yield ()
@@ -63,12 +63,12 @@ class ResourcesSuite extends munit.FunSuite {
 
   withServer.test("reject possibly conflicting updates") { _ =>
     for {
-      resourceV1 <- resourcesClient.read()
+      resourceV1 <- resourcesClient.read(())
       maybeResourceV2 <- resourcesClient.update(Resource("new-value"), resourceV1.version)
       _ = assert(maybeResourceV2.isDefined) // First updated succeeded
       maybeResourceV3 <- resourcesClient.update(Resource("newer-value"), resourceV1.version)
       _ = assert(maybeResourceV3.isEmpty) // Second update was rejected
-      resourceV2 <- resourcesClient.read()
+      resourceV2 <- resourcesClient.read(())
       _ = assert(maybeResourceV2.contains(resourceV2))
     } yield ()
   }
